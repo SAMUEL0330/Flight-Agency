@@ -32,4 +32,16 @@ router.post('/', authenticateToken, async (req, res) => {
     }
 });
 
+router.get('/', authenticateToken, async (req, res) => {
+    try {
+        const [flights] = await db.execute(
+            'SELECT * FROM flight_forms WHERE user_id = ? ORDER BY created_at DESC',
+            [req.user.id]
+        );
+        res.json(flights);
+    } catch (error) {
+        res.status(500).json({ error: 'Database error', details: error.message });
+    }
+});
+
 module.exports = router;

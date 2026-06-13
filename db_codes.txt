@@ -1,0 +1,2 @@
+flights: mysql -u root -e "USE sabados_db; SELECT * FROM flight_forms;"
+users: mysql -u root -e "USE sabados_db; SELECT id, username, name, address, phone, dob FROM users LIMIT 2;"

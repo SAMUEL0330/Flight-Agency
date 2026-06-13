@@ -20,6 +20,7 @@ export class FlightAgencyComponent implements OnInit {
     passengers: 1
   };
 
+  flights: any[] = [];
   successMessage = '';
   errorMessage = '';
 
@@ -28,12 +29,28 @@ export class FlightAgencyComponent implements OnInit {
   ngOnInit(): void {
     if (!localStorage.getItem('token')) {
       this.router.navigate(['/login']);
+    } else {
+      this.loadFlights();
     }
   }
 
   logout() {
     localStorage.removeItem('token');
     this.router.navigate(['/login']);
+  }
+
+  loadFlights() {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
+    this.api.getFlights(token).subscribe({
+      next: (flights) => {
+        this.flights = flights;
+      },
+      error: (err) => {
+        console.error('Error loading flights:', err);
+      }
+    });
   }
 
   bookFlight() {
@@ -45,6 +62,7 @@ export class FlightAgencyComponent implements OnInit {
         this.successMessage = '¡Reserva de vuelo guardada con éxito!';
         this.errorMessage = '';
         this.flight = { destination: '', origin: '', departure_date: '', return_date: '', passengers: 1 };
+        this.loadFlights(); // Reload flights list
       },
       error: (err) => {
         this.errorMessage = err.error?.error || 'Error al guardar el vuelo';

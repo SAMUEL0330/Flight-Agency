@@ -27,4 +27,9 @@ export class ApiService {
     const headers = { 'Authorization': `Bearer ${token}` };
     return this.http.post(`${this.apiUrl}/flights`, data, { headers });
   }
+
+  getFlights(token: string): Observable<any> {
+    const headers = { 'Authorization': `Bearer ${token}` };
+    return this.http.get(`${this.apiUrl}/flights`, { headers });
+  }
 }

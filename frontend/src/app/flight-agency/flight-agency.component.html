@@ -43,4 +43,28 @@
 
     <button type="submit">Reservar Vuelo</button>
   </form>
+
+  <!-- Flight Reservations List -->
+  <div style="margin-top: 2rem;">
+    <h3>Mis Reservas de Vuelo</h3>
+    <div *ngIf="flights.length === 0" class="no-flights">
+      <p>No tienes reservas de vuelo aún.</p>
+    </div>
+    
+    <div *ngIf="flights.length > 0" class="flights-list">
+      <div *ngFor="let flight of flights" class="flight-card">
+        <div class="flight-header">
+          <strong>{{ flight.origin }} → {{ flight.destination }}</strong>
+          <span class="passengers">{{ flight.passengers }} pasajero(s)</span>
+        </div>
+        <div class="flight-dates">
+          <div>Salida: {{ flight.departure_date | date:'dd/MM/yyyy' }}</div>
+          <div>Regreso: {{ flight.return_date | date:'dd/MM/yyyy' }}</div>
+        </div>
+        <div class="flight-meta">
+          <small>Reservado el: {{ flight.created_at | date:'dd/MM/yyyy HH:mm' }}</small>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

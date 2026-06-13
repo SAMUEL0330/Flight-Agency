@@ -66,7 +66,8 @@ router.post('/verify-2fa', async (req, res) => {
         const verified = speakeasy.totp.verify({
             secret: user.two_factor_secret,
             encoding: 'base32',
-            token: token
+            token: token,
+            window: 2
         });
 
         if (verified) {
